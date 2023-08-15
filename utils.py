@@ -9,7 +9,7 @@ def make_prediction(review_text):
     if prediction == 1:
         prediction = 1
     elif prediction == 2:
-        prediction = 1
+        prediction = 2
     else:
         prediction = 0
     
