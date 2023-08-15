@@ -14,7 +14,7 @@
     </style>
 </head>
 <body>
-    <h1>Amazon Review Sentiment Classifier ss</h1>
+    <h1>Amazon Review Sentiment Classifier</h1>
     <form method="post" action="/predict">
         <textarea rows="12" cols="60" name="content" placeholder="Type or paste review">{{review_text}}</textarea>
         <div>
@@ -24,10 +24,13 @@
     </form>
 
     {% if  prediction ==1 %}
-        <h2>SPAM</h2>
+        <h2>Positive</h2>
 
-    {% elif  prediction ==-1 %}
-        <h2>NOT SPAM</h2>
+    {% elif  prediction ==2 %}
+        <h2>Negative</h2>
+
+        {% elif  prediction ==0 %}
+        <h2>Neutral</h2>
     {% endif %}
 
 </body>
