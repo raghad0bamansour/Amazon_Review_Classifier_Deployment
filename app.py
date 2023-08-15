@@ -1,11 +1,7 @@
 from flask import Flask, render_template, request, jsonify
-import pickle
-
-cv = pickle.load(open("models/cv.pkl", "rb"))
-clf = pickle.load(open("models/clf.pkl", "rb"))
-
-
+from utils import make_prediction
 app = Flask(__name__)
+
 
 @app.route("/")
 def home():
@@ -14,19 +10,14 @@ def home():
 @app.route("/predict", methods=["POST"])
 def predict():
     review_text = request.form.get("content")
-    tokenized_review = cv.transform([review_text])
-    prediction = clf.predict(tokenized_review)
-    prediction = 1 if prediction == 1 else -1
+    prediction = make_prediction(review_text)
     return render_template("index.html",prediction=prediction, review_text=review_text)
 
 @app.route('/api/predict', methods=['POST'])
 def api_predict():
     data = request.get_json(force=True)  # Get data posted as a json
     review_text = data['content']
-    tokenized_review = cv.transform([review_text]) # X 
-    prediction = clf.predict(tokenized_review)
-    # If the email is spam prediction should be 1
-    prediction = 1 if prediction == 1 else -1
+    prediction = make_prediction(review_text)
     return jsonify({'prediction': prediction, 'review_text': review_text})
 
 if __name__ == '__main__':
